@@ -2,15 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const WEEK_LABELS = ['一', '二', '三', '四', '五', '六', '日'];
+const WEEK_LABELS = ['日', '一', '二', '三', '四', '五', '六'];
 
 const getMonthGrid = (date) => {
   const year = date.getFullYear();
   const month = date.getMonth();
   const firstOfMonth = new Date(year, month, 1);
-  const firstDay = firstOfMonth.getDay(); // 0-6 (Sun-Sat)
-  const mondayIndex = (firstDay + 6) % 7; // convert to Monday-based index
-  const start = new Date(year, month, 1 - mondayIndex);
+  const firstDay = firstOfMonth.getDay(); // 0-6 (Sun-Sat), 0 is Sunday
+  const start = new Date(year, month, 1 - firstDay); // Sunday-based start
   const days = [];
   for (let i = 0; i < 42; i++) {
     const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);

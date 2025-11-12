@@ -2,17 +2,16 @@ import React from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const WEEK_LABELS = ['一', '二', '三', '四', '五', '六', '日'];
+const WEEK_LABELS = ['日', '一', '二', '三', '四', '五', '六'];
 
-const startOfWeekMonday = (date) => {
+const startOfWeekSunday = (date) => {
   const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  const day = d.getDay(); // 0-6 (Sun-Sat)
-  const mondayIndex = (day + 6) % 7; // convert to Monday-based index
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate() - mondayIndex);
+  const day = d.getDay(); // 0-6 (Sun-Sat), 0 is Sunday
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate() - day);
 };
 
 const getWeekDays = (anchorDate) => {
-  const start = startOfWeekMonday(anchorDate);
+  const start = startOfWeekSunday(anchorDate);
   const days = [];
   for (let i = 0; i < 7; i++) {
     const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
@@ -100,7 +99,7 @@ const WeekView = () => {
     });
   };
 
-  const start = startOfWeekMonday(current);
+  const start = startOfWeekSunday(current);
   const end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 6);
 
   return (
