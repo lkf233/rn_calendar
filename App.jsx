@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Pressable, Text } from 'react-native';
 import MonthView from './components/MonthView';
 import WeekView from './components/WeekView';
+import DayView from './components/DayView';
+import YearView from './components/YearView';
 
 const App = () => {
   const [mode, setMode] = React.useState('month');
@@ -15,8 +17,14 @@ const App = () => {
         <Pressable onPress={() => setMode('week')} style={[styles.modeBtn, mode === 'week' && styles.modeBtnActive]}>
           <Text style={[styles.modeText, mode === 'week' && styles.modeTextActive]}>周视图</Text>
         </Pressable>
+        <Pressable onPress={() => setMode('day')} style={[styles.modeBtn, mode === 'day' && styles.modeBtnActive]}>
+          <Text style={[styles.modeText, mode === 'day' && styles.modeTextActive]}>日视图</Text>
+        </Pressable>
+        <Pressable onPress={() => setMode('year')} style={[styles.modeBtn, mode === 'year' && styles.modeBtnActive]}>
+          <Text style={[styles.modeText, mode === 'year' && styles.modeTextActive]}>年视图</Text>
+        </Pressable>
       </View>
-      {mode === 'month' ? <MonthView /> : <WeekView />}
+      {mode === 'month' ? <MonthView /> : mode === 'week' ? <WeekView /> : mode === 'day' ? <DayView /> : <YearView />}
       <StatusBar style="auto" />
     </View>
   );
