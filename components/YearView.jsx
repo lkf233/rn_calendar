@@ -26,7 +26,7 @@ const formatDate = (d) => {
   return `${y}-${m}-${day}`;
 };
 
-const YearView = () => {
+const YearView = ({ onPickMonth }) => {
   const [current, setCurrent] = React.useState(new Date());
   const [eventsByDate, setEventsByDate] = React.useState({});
   const today = new Date();
@@ -84,7 +84,11 @@ const YearView = () => {
           const firstOfMonth = new Date(current.getFullYear(), m, 1);
           const days = getMonthGrid(firstOfMonth);
           return (
-            <View key={m} style={styles.monthTile}>
+            <Pressable key={m} style={styles.monthTile} onPress={() => {
+              if (typeof onPickMonth === 'function') {
+                onPickMonth(current.getFullYear(), m);
+              }
+            }}>
               <Text style={styles.monthTitle}>{m + 1}月</Text>
               <View style={styles.weekHeader}>
                 {WEEK_LABELS.map((label) => (
@@ -111,7 +115,7 @@ const YearView = () => {
                   );
                 })}
               </View>
-            </View>
+            </Pressable>
           );
         })}
       </ScrollView>

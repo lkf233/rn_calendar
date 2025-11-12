@@ -8,6 +8,7 @@ import YearView from './components/YearView';
 
 const App = () => {
   const [mode, setMode] = React.useState('month');
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   return (
     <View style={styles.container}>
       <View style={styles.modeBar}>
@@ -24,7 +25,18 @@ const App = () => {
           <Text style={[styles.modeText, mode === 'year' && styles.modeTextActive]}>年视图</Text>
         </Pressable>
       </View>
-      {mode === 'month' ? <MonthView /> : mode === 'week' ? <WeekView /> : mode === 'day' ? <DayView /> : <YearView />}
+      {mode === 'month' ? (
+        <MonthView initialDate={selectedDate} />
+      ) : mode === 'week' ? (
+        <WeekView />
+      ) : mode === 'day' ? (
+        <DayView />
+      ) : (
+        <YearView onPickMonth={(year, monthIndex) => {
+          setSelectedDate(new Date(year, monthIndex, 1));
+          setMode('month');
+        }} />
+      )}
       <StatusBar style="auto" />
     </View>
   );

@@ -29,7 +29,7 @@ const formatDate = (d) => {
   return `${y}-${m}-${day}`;
 };
 
-const MonthView = () => {
+const MonthView = ({ initialDate }) => {
   const [current, setCurrent] = React.useState(new Date());
   const [selected, setSelected] = React.useState(new Date());
   const [showAddForm, setShowAddForm] = React.useState(false);
@@ -37,6 +37,14 @@ const MonthView = () => {
   const [eventsByDate, setEventsByDate] = React.useState({});
   const days = getMonthGrid(current);
   const today = new Date();
+
+  React.useEffect(() => {
+    if (initialDate instanceof Date) {
+      const d = new Date(initialDate.getFullYear(), initialDate.getMonth(), 1);
+      setCurrent(d);
+      setSelected(initialDate);
+    }
+  }, [initialDate]);
 
   React.useEffect(() => {
     let mounted = true;
